@@ -1,13 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    navigate('/category');
+  };
+
   return (
     <div>
       <h2>Login</h2>
-      <button>
-        <Link to="/category">Login</Link>
-      </button>
+      <button onClick={handleLogin}>Login</button>
     </div>
   );
 };

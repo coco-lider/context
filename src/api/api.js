@@ -1,15 +1,13 @@
-// src/api/api.js
 import axios from 'axios';
 
 export const api = axios.create({
-  baseURL: 'https://fakestoreapi.com', // bitta joydan boshqariladi
+  baseURL: 'https://6800f5c881c7e9fbcc41017b.mockapi.io',
   timeout: 3000,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-// Token avtomatik qo'shish
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('access_token');
@@ -21,12 +19,17 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Javob interceptor
-api.interceptors.response.use(
-  (response) => response,
-  (error) => Promise.reject(error)
-);
+export const getAllProducts = () => api.get('/crud');
 
-// ✅ API funksiyalari
-export const getCategories = () => api.get('/products/categories');
-export const getProductsByCategory = (categoryName) => api.get(`/products/category/${categoryName}`);
+export const getCategories = async () => {
+  const res = await api.get('/crud');
+  const all = res.data;
+  const unique = [...new Set(all.map((item) => item.category))];
+  return unique;
+};
+
+export const getProductsByCategory = async (categoryName) => {
+  const res = await api.get('/crud');
+  const all = res.data;
+  return all.filter((item) => item.category === categoryName);
+};

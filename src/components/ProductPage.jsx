@@ -1,39 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { useProductContext } from '../context/ProductContext';
-import ProductCard from './ProductCard';
-import { getProductsByCategory } from '../api/api';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { getProductsByCategory } from "../api/api";
+import ProductCard from "./ProductCard";
 
 const ProductPage = () => {
   const { categoryId } = useParams();
-  const { state, dispatch } = useProductContext();
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        dispatch({ type: 'SET_LOADING' });
-        const res = await getProductsByCategory(categoryId);
-        dispatch({ type: 'SET_PRODUCTS', payload: res.data });
-      } catch (error) {
-        dispatch({ type: 'SET_ERROR', payload: error.message });
-      }
+    const load = async () => {
+      const result = await getProductsByCategory(categoryId);
+      setProducts(result);
     };
-    fetchProducts();
-  }, [dispatch, categoryId]);
-
-  if (state.loading) return <div>Loading...</div>;
-  if (state.error) return <div>Error: {state.error}</div>;
+    load();
+  }, [categoryId]);
 
   return (
     <div>
-      <h2>Products in {categoryId}</h2>
-      <div>
-        {state.products
-          .filter((product) => product.price <= 100)
-          .map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-      </div>
+      <h2>{categoryId} mahsulotlari</h2>
+      {products.map((product) => (
+        <ProductCard key={product.id} product={product} />
+      ))}
     </div>
   );
 };

@@ -10,8 +10,7 @@ const CategoryPage = () => {
     const fetchCategories = async () => {
       try {
         dispatch({ type: "SET_LOADING" });
-        const res = await getCategories();
-        const data = res.data;
+        const data = await getCategories();
         const formatted = data.map((name, index) => ({ id: index + 1, name }));
         dispatch({ type: "SET_CATEGORIES", payload: formatted });
       } catch (error) {
@@ -27,11 +26,11 @@ const CategoryPage = () => {
 
   return (
     <div>
-      <h2>Categories</h2>
+      <h2>Kategoriyalar</h2>
       <ul>
         {state.categories.map((cat) => (
           <li key={cat.id}>
-            <Link to={`/products/${cat.name}`}>{cat.name}</Link>{" "}
+            <Link to={`/products/${cat.name}`}>{cat.name}</Link>
           </li>
         ))}
       </ul>
