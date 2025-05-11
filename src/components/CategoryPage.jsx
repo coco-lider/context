@@ -9,7 +9,7 @@ const CategoryPage = () => {
     const fetchCategories = async () => {
       try {
         dispatch({ type: 'SET_LOADING' });
-        const res = await fetch('https://fakestoreapi.com/products/categories'); // misol uchun
+        const res = await fetch('https://fakestoreapi.com/products/categories');
         const data = await res.json();
         const formatted = data.map((name, index) => ({ id: index + 1, name }));
         dispatch({ type: 'SET_CATEGORIES', payload: formatted });

@@ -1,10 +1,10 @@
     import React, { useEffect, useState } from 'react';
-    import { useParams } from 'react-router-dom'; // ❗ Qo‘shilgan
+    import { useParams } from 'react-router-dom';
     import { useProductContext } from '../context/ProductContext';
     import ProductCard from './ProductCard';
 
     const ProductPage = () => {
-    const { categoryId } = useParams(); // ✅ To‘g‘ri ishlatilmoqda
+    const { categoryId } = useParams();
     const { state, dispatch } = useProductContext();
     const [page, setPage] = useState(1);
 
