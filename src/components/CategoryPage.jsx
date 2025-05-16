@@ -2,9 +2,12 @@ import React, { useEffect } from "react";
 import { useProductContext } from "../context/ProductContext";
 import { Link } from "react-router-dom";
 import { getCategories } from "../api/api";
+import { useTranslation } from "react-i18next";
 
 const CategoryPage = () => {
   const { state, dispatch } = useProductContext();
+  const { t ,i18n} = useTranslation();
+
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -21,12 +24,27 @@ const CategoryPage = () => {
     fetchCategories();
   }, [dispatch]);
 
-  if (state.loading) return <div>Yuklanmoqda...</div>;
-  if (state.error) return <div>Xatolik: {state.error}</div>;
+  if (state.loading) return <div>{t("loading")}</div>;
+  if (state.error)
+    return (
+      <div>
+        {t("error")}: {state.error}
+      </div>
+    );
+
+
+  const changeLanguage = (lang) => {
+    i18n.changeLanguage(lang);
+  };
 
   return (
     <div>
-      <h2>Kategoriyalar</h2>
+      <div>
+        <button onClick={() => changeLanguage("uz")}>UZ</button>
+        <button onClick={() => changeLanguage("en")}>EN</button>
+      </div>
+
+      <h2>{t("categories")}</h2>
       <ul>
         {state.categories.map((cat) => (
           <li key={cat.id}>
